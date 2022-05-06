@@ -1,0 +1,15 @@
+let info =  await axios.post("https://vaistrainfo.herokuapp.com/auth/verifyotp",state).then(response=>{
+    //    console.log(response.data);
+    if(response.data.success===true)
+    {
+        seterrormsg(" ");
+        navigate("/home");
+    }else{
+        console.log(response);
+    }
+})
+.then(response=>{
+    alert(response.status);
+    console.log(response);
+})
+.catch(error =>  { seterrormsg("Something Wrong");});
