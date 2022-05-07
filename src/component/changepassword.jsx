@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Info } from '../context/api'
-
+import "../App.css"
 const tokenget=()=>{
   let data = localStorage.getItem("token");
 
@@ -76,7 +76,7 @@ const Changepassword = () => {
     <>
            <div className="container d-flex justify-content-center align-items-center min-vh-100 flex-column">
         <h1 className="text-center py-4">Change Password</h1>
-        <div className="card" style={{ width: "40%", height: "auto" }}>
+        <div className="card" style={{ height: "auto" }}>
           <div className="card-body p-5">
             <form action="" onSubmit={submiting}>
               <input

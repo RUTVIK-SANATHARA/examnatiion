@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import { Prompt } from 'react-router'
 import { Info } from '../context/api';
-
+import "../App.css"
 const forData = () => {
   let store = JSON.parse(localStorage.getItem("forgotall"));
   if (store) {
@@ -105,7 +105,7 @@ const Forcode = () => {
           <span className="text-danger">Note: </span>The otp will expire in 5
           minutes and only be used once
         </p>
-        <div className="card" style={{ width: "40%", height: "auto" }}>
+        <div className="card" style={{ height: "auto" }}>
           <div className="card-body p-5">
             <form action="" onSubmit={submiting}>
               <input

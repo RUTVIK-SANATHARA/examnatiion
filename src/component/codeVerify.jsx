@@ -2,7 +2,7 @@ import axios from 'axios';
 import React,{useState , useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-
+import "../App.css"
 import 'react-toastify/dist/ReactToastify.css';
 import { Info } from '../context/api';
 // import { Prompt } from 'react-router'
@@ -100,7 +100,7 @@ const resend=()=>{
         <div className="container d-flex justify-content-center align-items-center min-vh-100 flex-column">
             <h1 className="text-center py-4">Number Verify</h1>
             <p><span className="text-danger">Note: </span>The otp will expire in 5 minutes and only be used once</p>
-            <div className="card" style={{width:"40%" , height:"auto" }}>
+            <div className="card" style={{height:"auto" }}>
                     <div className="card-body p-5">
                          <form action="" onSubmit={submiting}>
                          {/* <input type="email" name='udetail' className="form-control" value={state.udetail} placeholder="Enter Your email"  onChange={check} required /><br /> */}

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Info } from '../context/api'
-
+import "../App.css"
 const Login = () => {
   let navigate = useNavigate();
   const [errormsg, seterrormsg] = useState("");
@@ -63,7 +63,7 @@ const Login = () => {
       <div>
         <div className="container d-flex justify-content-center align-items-center min-vh-100 flex-column">
           <h1 className="text-center py-4">Login Page</h1>
-          <div className="card" style={{ width: "40%", height: "auto" }}>
+          <div className="card" style={{  height: "auto" }}>
             <div className="card-body p-5">
               <form action="" onSubmit={submiting}>
                 <input
@@ -88,12 +88,12 @@ const Login = () => {
                 <br />
                 <Link to="/forget">Forget-password?</Link>
                 <p className="text-danger">{errormsg}</p>
-                <button className="btn btn-primary px-5 me-3" type="submit">
+                <button className="btn btn-primary px-3 me-3" type="submit">
                   Login
                 </button>
-               <Link to="/register"> <button className="btn btn-primary px-5 mx-5" type="submit">
+               <button className="btn btn-primary px-3 mx-3" type="submit"  onClick={()=>navigate("/register")}>
                   Sign Up
-                </button></Link>
+                </button>
                 <ToastContainer />
               </form>
               

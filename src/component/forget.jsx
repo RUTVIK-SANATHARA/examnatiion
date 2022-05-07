@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Info } from '../context/api'
-
+import "../App.css"
 const Forget = () => {
     // all Hooks
     const [errormsg, seterrormsg] = useState("");
@@ -47,7 +47,7 @@ const Forget = () => {
         <div className="container d-flex justify-content-center align-items-center min-vh-100 flex-column">
             <h1 className="text-center py-4">Forget Password</h1>
             {/* <p><span className="text-danger">Note: </span>The otp will expire in 5 minutes and only be used once</p> */}
-            <div className="card" style={{width:"40%" , height:"auto" }}>
+            <div className="card" style={{height:"auto" }}>
                     <div className="card-body p-5">
                          <form action="" onSubmit={submiting}>
                          <input type="email" name='udetail' className="form-control" value={state.udetail} placeholder="Enter Your Email"  onChange={check} required /><br />

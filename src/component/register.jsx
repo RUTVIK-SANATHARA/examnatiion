@@ -6,6 +6,7 @@ import 'react-phone-number-input/style.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "../compo.css";
+import "../App.css"
 import { Info } from '../context/api'
 const Register = () => {
      let navigate =useNavigate();
@@ -85,7 +86,7 @@ const Register = () => {
         <div>
            <div className="container d-flex justify-content-center align-items-center min-vh-100 flex-column">
             <h1 className="text-center py-4">Sign Up</h1>
-            <div className="card" style={{width:"40%" , height:"auto" }}>
+            <div className="card" style={{ height:"auto" }}>
                     <div className="card-body p-5">
                          <form action="" onSubmit={submiting}>
                          <input type="text" name='firstname'  className="form-control" value={state.firstname} placeholder="Enter Your Name"  onChange={check} required/>  <br />

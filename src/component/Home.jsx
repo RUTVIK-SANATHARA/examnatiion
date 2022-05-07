@@ -1,7 +1,7 @@
 import React ,{useContext} from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
-;
+
 const Home = () => {
     let navigate = useNavigate();
     // const url = useContext(Info);
