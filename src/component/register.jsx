@@ -14,10 +14,9 @@ const Register = () => {
     const [errormsg, seterrormsg] = useState("")
     const url = useContext(Info);
     const [state, setstate] = useState({
-        firstname:"",
-        lastname:"",
+        name:"",
         email:"",
-        birthdate:"",
+        confirm:"",
         password:"",
         phone:""
     })
@@ -89,12 +88,11 @@ const Register = () => {
             <div className="card" style={{ height:"auto" }}>
                     <div className="card-body p-5">
                          <form action="" onSubmit={submiting}>
-                         <input type="text" name='firstname'  className="form-control" value={state.firstname} placeholder="Enter Your Name"  onChange={check} required/>  <br />
-                         <input type="text" name='lastname'  className="form-control" value={state.lastname} placeholder="Enter Your Last Name"  onChange={check} required/>  <br />
+                         <input type="text" name='name'  className="form-control" value={state.name} placeholder="Enter Your Name"  onChange={check} required/>  <br />
                          <input type="email" name='email'  className="form-control" value={state.email} placeholder="Enter Your Email"  onChange={check} required/>  <br />
                          <PhoneInput international defaultCountry="IN" name="phone" countryCallingCodeEditable={false}  className="form-control mb-4" placeholder="Enter Your Number" onBlur={num}  limitMaxLength={true} value={val} onChange={setValue} />
-                         <input type="date"  name='birthdate'  className="form-control" value={state.birthdate} placeholder="Enter Your Date"  onChange={check} required/>  <br />
                          <input type="password" name='password'  className="form-control" value={state.password} placeholder="Enter Your Password"  onChange={check}  required/>  <br />
+                         <input type="text" name='confirm'  className="form-control" value={state.confirm} placeholder="Enter Your Last Name"  onChange={check} required/>  <br />
                          {/* <input type="number" name='phone' id='number' className="form-control" value={state.phone} placeholder="Enter Your Number" onInput={num}  onChange={check} required maxLength={10}/>  <br /> */}
                           <p className='text-danger'>{errormsg}</p>
                          <button className="btn btn-primary px-5" type="submit">Sign Up</button>

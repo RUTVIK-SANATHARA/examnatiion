@@ -24,6 +24,7 @@ const Login = () => {
       };
     });
   };
+
   const submiting =  (e) => {
    
     e.preventDefault();
@@ -44,7 +45,7 @@ const Login = () => {
           notify();
           seterrormsg(" ");
           setTimeout(()=>{
-            navigate("/home");
+            navigate("/welcome");
           },2700)
           localStorage.setItem("token", response.data.token);
         } else {
@@ -96,7 +97,6 @@ const Login = () => {
                 </button>
                 <ToastContainer />
               </form>
-              
             </div>
           </div>
         </div>
