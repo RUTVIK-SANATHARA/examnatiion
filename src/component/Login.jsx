@@ -10,7 +10,7 @@ const Login = () => {
   let navigate = useNavigate();
   const [errormsg, seterrormsg] = useState("");
   const [state, setstate] = useState({
-    udetail: "",
+    username: "",
     password: "",
   });
   const url = useContext(Info);
@@ -29,10 +29,10 @@ const Login = () => {
    
     e.preventDefault();
        axios
-      .post(`${url}/login`, state)
+      .post(`${url}api/auth/login`, state)
       .then((response) => {
         console.log(response);
-        if (response.data.success === true) {
+        if (response.status ===200) {
           const notify = () => toast('Successfully Login!', {
             position: "top-center",
             autoClose:2000,
@@ -45,9 +45,9 @@ const Login = () => {
           notify();
           seterrormsg(" ");
           setTimeout(()=>{
-            navigate("/welcome");
+            navigate("/user");
           },2700)
-          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("logintoken", response.data.token);
         } else {
           throw new Error(response);
         }
@@ -69,9 +69,9 @@ const Login = () => {
               <form action="" onSubmit={submiting}>
                 <input
                   type="email"
-                  name="udetail"
+                  name="username"
                   className="form-control"
-                  value={state.udetail}
+                  value={state.username}
                   placeholder="Enter Your Email Address"
                   onChange={check}
                   required

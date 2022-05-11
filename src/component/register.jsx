@@ -16,9 +16,8 @@ const Register = () => {
     const [state, setstate] = useState({
         name:"",
         email:"",
-        confirm:"",
         password:"",
-        phone:""
+        phone_number:""
     })
     const check=(e)=>{
         // let {name , value}= e.target;
@@ -27,7 +26,7 @@ const Register = () => {
             return{
                 ...prev,
                 [e.target.name]:e.target.value,
-                phone:val
+                phone_number:val
             }
         })
     }
@@ -47,10 +46,10 @@ const Register = () => {
 
     const submiting = async (e)=>{
         e.preventDefault();
-            await axios.post(`${url}/register`,state).then(response=>{
+            await axios.post(`${url}api/auth/register`,state).then(response=>{
         console.log(response)
        
-        if(response.data.success===true)
+        if(response.status===200)
         {
             const notify = () => toast('Successfully register Your Data!', {
                 position: "top-center",
@@ -64,10 +63,10 @@ const Register = () => {
               notify();
               seterrormsg(" ");
               setTimeout(()=>{
-                navigate("/codeVerify");
+                navigate("/user");
               },2700)
             seterrormsg(" ");
-            localStorage.setItem("email",state.email);
+            localStorage.setItem("token",response.data.token);
         }else{
             throw new Error(response)
         }
@@ -90,9 +89,9 @@ const Register = () => {
                          <form action="" onSubmit={submiting}>
                          <input type="text" name='name'  className="form-control" value={state.name} placeholder="Enter Your Name"  onChange={check} required/>  <br />
                          <input type="email" name='email'  className="form-control" value={state.email} placeholder="Enter Your Email"  onChange={check} required/>  <br />
-                         <PhoneInput international defaultCountry="IN" name="phone" countryCallingCodeEditable={false}  className="form-control mb-4" placeholder="Enter Your Number" onBlur={num}  limitMaxLength={true} value={val} onChange={setValue} />
+                         <PhoneInput international defaultCountry="IN" name="phone_number" countryCallingCodeEditable={false}  className="form-control mb-4" placeholder="Enter Your Number" onBlur={num}  limitMaxLength={true} value={val} onChange={setValue} />
                          <input type="password" name='password'  className="form-control" value={state.password} placeholder="Enter Your Password"  onChange={check}  required/>  <br />
-                         <input type="text" name='confirm'  className="form-control" value={state.confirm} placeholder="Enter Your Last Name"  onChange={check} required/>  <br />
+                         {/* <input type="text" name='confirm'  className="form-control" value={state.confirm} placeholder="Enter Your Last Name"  onChange={check} required/>  <br /> */}
                          {/* <input type="number" name='phone' id='number' className="form-control" value={state.phone} placeholder="Enter Your Number" onInput={num}  onChange={check} required maxLength={10}/>  <br /> */}
                           <p className='text-danger'>{errormsg}</p>
                          <button className="btn btn-primary px-5" type="submit">Sign Up</button>
