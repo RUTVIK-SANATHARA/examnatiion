@@ -44,10 +44,20 @@ const Login = () => {
             }); 
           notify();
           seterrormsg(" ");
-          setTimeout(()=>{
-            navigate("/user");
-          },2700)
-          localStorage.setItem("logintoken", response.data.token);
+          
+          localStorage.setItem("logintoken",JSON.stringify(response.data));
+          localStorage.setItem("data",response.data.token);
+          // localStorage.setItem("logintoken", response.data.role);
+
+          if(response.data.role==="STUDENT"){
+            setTimeout(()=>{
+              navigate("/user");
+            },2700);
+          }else{
+            setTimeout(()=>{
+              navigate("/admin");
+            },2700);
+          }
         } else {
           throw new Error(response);
         }
@@ -58,6 +68,8 @@ const Login = () => {
       .catch((error) => {
           seterrormsg("something wrong please check email address or password");
       });
+
+      
   };
   return (
     <>

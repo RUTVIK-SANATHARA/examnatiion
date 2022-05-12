@@ -1,125 +1,108 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState , useContext } from "react";
+import Sidebar from "../component/sidebar";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../component/home.css";
-const Admin = () => {
-  let navigate = useNavigate();
+import { LocalStoragedata } from "../component/local";
+
+
+
+
+const Admin = (props) => {
+  // console.log(props.exp);
+   let Navigate = useNavigate();
+  const [student, setStudent] = useState([]);
+  // const [data, setData] = useState(getToken())
+  let token = useContext(LocalStoragedata);
+  // console.log(token.token);
+
+  useEffect(() => {
+    axios
+      .get("http://192.168.0.138:5000/api/student/all", {
+        headers: {
+          Authorization: "Bearer " + token.token,
+        },
+      })
+      .then((response) => {
+        setStudent(response.data.student);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  
+   if(token.role==="STUDENT"){
+      Navigate("/");
+      console.log("admin");
+      localStorage.clear();
+   }
+   if(!token.token){
+    Navigate("/");
+    window.location.reload();
+  }
+     
+
+ 
+  }, []);
+
+
+
+
+
+
+
+
   return (
     <>
       <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a className="navbar-brand ps-3" href="index.html">
+        <Link className="navbar-brand ps-3" to="index.html">
           Admin Panel
-        </a>
+        </Link>
 
         <button
           className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
           id="sidebarToggle"
-          href="#!"
+          to="#!"
         >
           <i className="fas fa-bars"></i>
         </button>
-
-        <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-          <div className="input-group">
-            <input
-              className="form-control"
-              type="text"
-              placeholder="Search for..."
-              aria-label="Search for..."
-              aria-describedby="btnNavbarSearch"
-            />
-            <button className="btn btn-primary" id="btnNavbarSearch" type="button">
-              <i className="fas fa-search"></i>
-            </button>
-          </div>
-        </form>
-
-        <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-          <li className="nav-item dropdown">
-            <a
-              className="nav-link dropdown-toggle"
-              id="navbarDropdown"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i className="fas fa-user fa-fw"></i>
-            </a>
-            <ul
-              className="dropdown-menu dropdown-menu-end"
-              aria-labelledby="navbarDropdown"
-            >
-              <li>
-                <a className="dropdown-item" href="#!">
-                  Settings
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#!">
-                  Activity Log
-                </a>
-              </li>
-              <li>
-                <hr className="dropdown-divider" />
-              </li>
-              <li>
-                <a className="dropdown-item" href="#!">
-                  Logout
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
       </nav>
-
       <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div className="sb-sidenav-menu">
-                        <div className="nav">
-                            <div className="sb-sidenav-menu-heading">Core</div>
-                            <Link className="nav-link" to="index.html">
-                                <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
-                                  Home
-                            </Link>
-                           
-                            <Link to="/addque" className="d-flex text-decoration-none text-white-50 my-3">
-                                <div className="sb-nav-link-icon"><i className="fas fa-columns px-3"></i></div>
-                                Add Question
-                               
-                            </Link>
 
-                            <Link to="/change" className="d-flex text-decoration-none text-white-50 my-3">
-                                <div className="sb-nav-link-icon"><i className="fas fa-columns px-3"></i></div>
-                                  Change Password
-                              
-                            </Link>
+         <Sidebar/>
 
-
-                            <Link to="/" className="d-flex text-decoration-none text-white-50 my-3 px-3">
-                                <div className="sb-nav-link-icon"><i className="fas fa-columns pe-3"></i></div>
-                                   Logout
-                                
-                            </Link>
-
-                            <Link to="/register" className="d-flex  text-decoration-none text-white-50 my-3 px-3">
-                                <div className="sb-nav-link-icon"><i className="fas fa-columns pe-3"></i></div>
-                                  Register
-                                
-                            </Link>
-                        </div>
-                    </div>
-                    <div className="sb-sidenav-footer">
-                        <div className="small">Logged in as:</div>
-                        Start Bootstrap
-                    </div>
-                </nav>
+        <div id="layoutSidenav_content">
+          <div>
+            <h1 className="text-center pt-3 pb-5">List of All Students</h1>
+            <div className="mx-5">
+              <table className="table table-hover ">
+                <thead>
+                  <tr>
+                    <th scope="col">Sr No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {student.map((ele, ind) => {
+                    return (
+                      <>
+                        <tr>
+                          <th scope="row">{ind + 1}</th>
+                          <td>{ele.name}</td>
+                          <td>{ele.email}</td>
+                          <td>{ele.phone_number}</td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-            <div id="layoutSidenav_content">
-
-             
-            </div>
+          </div>
         </div>
+      </div>
     </>
   );
 };

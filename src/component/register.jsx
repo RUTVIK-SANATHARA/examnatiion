@@ -62,11 +62,16 @@ const Register = () => {
                 }); 
               notify();
               seterrormsg(" ");
-              setTimeout(()=>{
-                navigate("/user");
-              },2700)
-            seterrormsg(" ");
-            localStorage.setItem("token",response.data.token);
+              localStorage.setItem("logintoken",response.data.token);
+              if(response.data.role==="STUDENT"){
+                setTimeout(()=>{
+                  navigate("/user");
+                },2700);
+              }else{
+                setTimeout(()=>{
+                  navigate("/admin");
+                },2700);
+              }
         }else{
             throw new Error(response)
         }

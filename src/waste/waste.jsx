@@ -343,3 +343,88 @@ const Addnew = () => {
 };
 
 export default Addnew;
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form   onSubmit={handleSubmit}>
+            <div className="d-flex flex-column  py-4 align-content-center justify-content-center">
+          {
+                     service.map((ele,index)=>{
+                    return(<>
+                    <div>
+                        {/* <button className="btn btn-primary mx-4 mt-2 mb-4"  onClick={handleCheck}  type='button'>Text Field</button> <button className="btn btn-primary mx-3 mt-2 mb-4" onClick={handleCheck} type='button'>Image</button> */}
+                        <button className="btn btn-primary mx-4 mt-2 mb-4"  onClick={()=>handleCheck(index)}  type='button'>{btntext}</button>
+                    </div>
+                    {  check ? 
+                   <div key={index +1}>
+                     <span className="mx-3">  {index+1} . </span>  <input type="text" placeholder="Enter new question" className="form-control mx-4" style={{width:"80%"}} name="question"   value={ele.question} onChange={(e)=>handle(e,index)} required/> <br />
+                     <input type="file" className="form-control" onChange={(e)=>setimg(e.target.files[0].name)} name="ques_explain" id="ques_explain"   />
+                    <input type="text" name="option_a" placeholder='Enter option 1' className="mx-4" id="opt-1" onChange={(e)=>handle(e,index)} value={ele.option_a}/>
+                    <input type="text" name="option_b" placeholder='Enter option 2' className="mx-4" id="opt-2" onChange={(e)=>handle(e,index)} value={ele.option_b}/>
+                    <input type="text" name="option_c" placeholder='Enter option 3' className="mx-4" id="opt-3" onChange={(e)=>handle(e,index)} value={ele.option_c}/>
+                    <input type="text" name="option_d" placeholder='Enter option 4' className="mx-4" id="opt-4" onChange={(e)=>handle(e,index)} value={ele.option_d}/>
+                    <input type="text" name="module" placeholder='Enter Your Module' className="mx-4" id="module" onChange={(e)=>handle(e,index)} value={ele.module}/>
+                    Answer: <select name="answer" value={ele.answer} onChange={(e)=>handle(e,index)} id="ans">
+                         <option value="A">A</option>
+                         <option value="B">B</option>
+                         <option value="C">C</option>
+                         <option value="D">D</option>
+                     </select> 
+                     Module: <select name="module"  value={service.module} onChange={handlechange} id="ans">
+                         <option value="" disabled>Select Module</option>
+                         <option value="C">C</option>
+                         <option value="C++">C++</option>
+                         <option value="React">React</option>
+                         <option value="Angular">Angular</option>
+                         <option value="PHP">Php</option>
+                     </select> 
+                                 
+                         <span className="ms-5">Explanation </span>
+                         <textarea name="explanation" onChange={(e)=>handle(e,index)} value={ele.explanation} id="" cols="30" rows="1"></textarea>
+                    
+                    {/* <button name="btn" type='button' onClick={()=>handleCheck(index)}>Addddd</button> */}
+                  { 
+                    service.length > 1 && (<button onClick={()=>remove(index)} className="btn btn-primary m-3 mx-4"   type="button">Remove</button> )
+                   }
+                  {
+                   service.length - 1 === index && service.length < 30 &&  <button type="button" className="btn btn-primary mx-4" onClick={add}>Add a New Questions</button> 
+                       
+                   }
+                   <hr />
+                   </div>     :   <div key={index +1}>
+               <span className="mx-3">  {index+1} . </span>  <input type="text" placeholder="Enter new question" className="form-control mx-4" style={{width:"80%"}} name="service"   value={ele.service} onChange={(e)=>handle(e,index)} required/> <br />
+                    <input type="file" name="option_a" className="mx-4" id="opt-1" onChange={(e)=>handle(e,index)} value={ele.option_a}/>
+                    <input type="file" name="option_b"  className="mx-4" id="opt-2" onChange={(e)=>handle(e,index)} value={ele.option_b}/>
+                    <input type="file" name="option_c"  className="mx-4" id="opt-3" onChange={(e)=>handle(e,index)} value={ele.option_c}/>
+                    <input type="file" name="option_d"  className="mx-4" id="opt-4" onChange={(e)=>handle(e,index)} value={ele.option_d}/>
+                    <button name="btn" type='button' onClick={()=>handleCheck(index)}>Addddd</button>
+                  { 
+                    service.length > 1 && (<button onClick={()=>remove(index)} className="btn btn-primary m-3 mx-4"   type="button">Remove</button> )
+                   }
+                  {
+                   service.length - 1 === index && service.length < 30 &&  <button type="button" className="btn btn-primary mx-4" onClick={add}>Add a New Questions</button> 
+                       
+                   }
+                   <hr />
+                   </div>  
+                }
+                   </>
+              )
+            })
+      }
+</div>
+<div>
+  <button type="submit" className="btn btn-primary mx-4" >Submit</button>
+</div>
+ <ToastContainer />
+</form>

@@ -14,14 +14,15 @@ import Exam from  "./pages/Exam";
 import Admin from "./pages/Admin";
 import User from './pages/User';
 import Addnew from './pages/Addnew';
-
-
+import { LocalStoragedata } from './component/local';
+import Local from './component/local';
 function App() {
 
   return (
     <>
      <Api>
      <BrowserRouter>
+       <Local>
        <Routes>
          <Route path='/home' element={<Home/>}></Route>
          <Route path='/user' element={<User/>}></Route>
@@ -37,6 +38,7 @@ function App() {
          {/* <Route path='/codeVerify' element={<CodeVerify/>}></Route> */}
          {/* <Route path='/change' element={<Changepassword/>}></Route> */}
        </Routes>
+       </Local>
      </BrowserRouter>
       </Api>
     </>

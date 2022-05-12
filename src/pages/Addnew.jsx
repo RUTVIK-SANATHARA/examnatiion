@@ -1,156 +1,269 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import axios from 'axios';
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Info } from "../context/api";
+import Sidebar from "../component/sidebar";
+import { LocalStoragedata } from "../component/local";
+
 const Addnew = () => {
-    const [service, setservice] = useState([{question:"" , option_a:"" , option_b:"" , option_c:"" , option_d:"" ,answer:"",explanation:""}  ]);
-    const [check, setcheck] = useState(true);
+  const [send, setsend] = useState({});
+  const [img, setimg] = useState("");
+  const url = useContext(Info);
+  const [check, setcheck] = useState(true);
     const [btntext, setbtntext] = useState("Image Field");
-    const add = () =>{
-        setservice([...service , {question:"" , option_a:"" , option_b:"" , option_c:"" , option_d:"",answer:"",explanation:""}])
-    }
+  let Navigate = useNavigate();
+  const token = useContext(LocalStoragedata);
+  // console.log("token",token);
+  const [service, setservice] = useState([{
+    question: "",
+    ques_explain: "",
+    option_a: "",
+    option_b: "",
+    option_c: "",
+    option_d: "",
+    answer: "",
+    explanation: "",
+    module: "",
+  }]);
+  // const [check, setcheck] = useState(true);
+  // const [btntext, setbtntext] = useState("Image Field");
+  const add = () =>{
+    //  setsend({...service})
+      let ind = service.length - 1 ;
+      console.log(service[ind]);
+    axios
+      .post(`${url}api/question`,service[ind], {
+        headers: {
+          Authorization:
+            "Bearer " +
+            token.token,
+        },
+      })
+      .then((response) => {
+        console.log(response);
 
-    const remove = (index) =>{
-        const list =[...service]
-        list.splice(index,1);
-    setservice(list)
+        if (response.status === 200) {
+          const notify = () =>
+            toast("Successfully register Your Data!", {
+              position: "top-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+            });
+          notify();
+        } else {
+          throw new Error(response);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setservice([...service , {question:"" ,ques_explain:"", option_a:"" , option_b:"" , option_c:"" , option_d:"",answer:"",explanation:"" ,module:""}])
+}
 
-    }
-     
-    const handle=(e,index)=>{
-        const list =[...service];
-        list[index][e.target.name] = e.target.value;
-        setservice(list)
-    }
-     const handleCheck=(id)=>{
-            setcheck(!check);
-           if(check === true){
-               setbtntext("Text Field")
-           }else{
-                setbtntext("Image Field")
-           }
-        
-     }
+  const remove = (index) =>{
+      const list =[...service]
+      list.splice(index,1);
+  setservice(list)
 
-    const  sendData= async()=>{
-        let res = axios.post("/api/question",service).then((res)=>{console.log(res)})
-     }
+  }
 
+  const handle=(e,index)=>{
+      const list =[...service];
+      list[index][e.target.name] = e.target.value;
+      setservice(list)
+  }
+   const handleCheck=(id)=>{
+          setcheck(!check);
+         if(check === true){
+             setbtntext("Text Field")
+         }else{
+              setbtntext("Image Field")
+         }
 
+   }
+
+  const handlechange = (e) => {
+    //  console.log("",e.target.files);
+    setservice({
+      ...service,
+      [e.target.name]: e.target.value,
+      ques_explain: img,
+    });
+
+    
+  };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   axios
+  //     .post(`${url}api/question`, service, {
+  //       headers: {
+  //         Authorization:
+  //           "Bearer " +
+  //           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgiLCJlbWFpbCI6InJzYW5hdGhhcmFAZ21haWwuY29tIiwiaWF0IjoxNjUyMjU0Mzc4fQ.l-yJg_FZtvXccz2QMNyN3ewz0H-NT4zVWKU5ZDT47eg",
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log(response);
+
+  //       if (response.status === 200) {
+  //         const notify = () =>
+  //           toast("Successfully register Your Data!", {
+  //             position: "top-center",
+  //             autoClose: 2000,
+  //             hideProgressBar: false,
+  //             closeOnClick: true,
+  //             pauseOnHover: false,
+  //             draggable: true,
+  //             progress: undefined,
+  //           });
+  //         notify();
+  //       } else {
+  //         throw new Error(response);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   if (!token.token) {
+  //     Navigate("/");
+  //   }
+
+  //   if (token.role === "STUDENT") {
+  //     Navigate("/");
+  //     localStorage.clear();
+  //   }
+  // }, []);
 
   return (
     <>
-    <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-      <a className="navbar-brand ps-3" href="#">
-        Admin Panel
-      </a>
+      <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <Link className="navbar-brand ps-3" to="">
+          Admin Panel
+        </Link>
 
-      <button
-        className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
-        id="sidebarToggle"
-        href="#!"
-      >
-        <i className="fas fa-bars"></i>
-      </button>
+        <button
+          className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
+          id="sidebarToggle"
+          to="#!"
+        >
+          <i className="fas fa-bars"></i>
+        </button>
+      </nav>
+      <div id="layoutSidenav">
+        <Sidebar />
+        <div id="layoutSidenav_content">
+          <div className="mx-5 d-flex flex-column  py-4 align-content-center justify-content-center">
+            {/* <form action="" onSubmit={handleSubmit}>
+              <h1 className="mx-4 pb-2">Question 1</h1>
+              <input
+                type="text"
+                className="form-control mx-4 mb-3"
+                style={{ width: "80%" }}
+                onChange={handlechange}
+                name="question"
+                id="question"
+                placeholder="Enter your Question"
+                value={service.question}
+              />
+              <input
+                type="file"
+                className="form-control mx-4 mb-3"
+                style={{ width: "80%" }}
+                onChange={(e) => setimg(e.target.files[0].name)}
+                name="ques_explain"
+                id="ques_explain"
+              />
+              <input
+                type="text"
+                className="form-control-sm mx-4 outline-none"
+                onChange={handlechange}
+                name="option_a"
+                id="option_a"
+                placeholder="Enter your option A"
+                value={service.option_a}
+              />
+              <input
+                type="text"
+                className="form-control-sm mx-4 outline-none"
+                onChange={handlechange}
+                name="option_b"
+                id="option_b"
+                placeholder="Enter your option B"
+                value={service.option_b}
+              />
+              <input
+                type="text"
+                className="form-control-sm mx-4 outline-none"
+                onChange={handlechange}
+                name="option_c"
+                id="option_c"
+                placeholder="Enter your option C"
+                value={service.option_c}
+              />
+              <input
+                type="text"
+                className="form-control-sm mx-4 outline-none"
+                onChange={handlechange}
+                name="option_d"
+                id="option_d"
+                placeholder="Enter your option D"
+                value={service.option_d}
+              />
+              Answer:{" "}
+              <select
+                name="answer"
+                value={service.answer}
+                onChange={handlechange}
+                id="ans"
+              >
+                <option value="">Select Answer</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+              </select>
+              <span className="ms-4">Module :</span>{" "}
+              <select
+                name="module"
+                value={service.module}
+                onChange={handlechange}
+                id="ans"
+              >
+                <option value="" disabled>
+                  Select Module
+                </option>
+                <option value="C Programming">C Programming</option>
+                <option value="C++">C++</option>
+                <option value="React">React</option>
+                <option value="e programiing">e programiing</option>
+                <option value="Angular">Angular</option>
+                <option value="D Programming">D Programming</option>
+              </select>
+              <textarea
+                name="explanation"
+                id="module"
+                onChange={handlechange}
+                placeholder="Enter Your answer Explanation"
+                className="mx-3 p-2"
+                value={service.explanation}
+                cols="30"
+                rows="1"
+              ></textarea>
+              <button className="btn btn-primary mx-4">Submit</button>
+              <hr />
+            </form> */}
 
-      <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-        <div className="input-group">
-          <input
-            className="form-control"
-            type="text"
-            placeholder="Search for..."
-            aria-label="Search for..."
-            aria-describedby="btnNavbarSearch"
-          />
-          <button className="btn btn-primary" id="btnNavbarSearch" type="button">
-            <i className="fas fa-search"></i>
-          </button>
-        </div>
-      </form>
-
-      <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-        <li className="nav-item dropdown">
-          <a
-            className="nav-link dropdown-toggle"
-            id="navbarDropdown"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i className="fas fa-user fa-fw"></i>
-          </a>
-          <ul
-            className="dropdown-menu dropdown-menu-end"
-            aria-labelledby="navbarDropdown"
-          >
-            <li>
-              <a className="dropdown-item" href="#!">
-                Settings
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#!">
-                Activity Log
-              </a>
-            </li>
-            <li>
-              <hr className="dropdown-divider" />
-            </li>
-            <li>
-              <a className="dropdown-item" href="#!">
-                Logout
-              </a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-
-    <div id="layoutSidenav">
-          <div id="layoutSidenav_nav">
-              <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                  <div className="sb-sidenav-menu">
-                      <div className="nav">
-                          <div className="sb-sidenav-menu-heading">Core</div>
-                          <Link className="nav-link" to="index.html">
-                              <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
-                                Dashboard
-                          </Link>
-                         
-                          <Link to="/addque" className="d-flex text-decoration-none text-white-50 my-3">
-                              <div className="sb-nav-link-icon"><i className="fas fa-columns px-3"></i></div>
-                              Add Questions
-                             
-                          </Link>
-
-                          <Link to="/change" className="d-flex text-decoration-none text-white-50 my-3">
-                              <div className="sb-nav-link-icon"><i className="fas fa-columns px-3"></i></div>
-                                Change Password
-                            
-                          </Link>
-
-
-                          <Link to="/" className="d-flex text-decoration-none text-white-50 my-3 px-3">
-                              <div className="sb-nav-link-icon"><i className="fas fa-columns pe-3"></i></div>
-                                 Logout
-                              
-                          </Link>
-
-                          <Link to="/register" className="d-flex  text-decoration-none text-white-50 my-3 px-3">
-                              <div className="sb-nav-link-icon"><i className="fas fa-columns pe-3"></i></div>
-                                Register
-                              
-                          </Link>
-                      </div>
-                  </div>
-                  <div className="sb-sidenav-footer">
-                      <div className="small">Logged in as:</div>
-                      Start Bootstrap
-                  </div>
-              </nav>
-          </div>
-          <div id="layoutSidenav_content">
-          <form>
+            <form >
             <div className="d-flex flex-column  py-4 align-content-center justify-content-center">
           {
                      service.map((ele,index)=>{
@@ -161,7 +274,8 @@ const Addnew = () => {
                     </div>
                     {  check ? 
                    <div key={index +1}>
-               <span className="mx-3">  {index+1} . </span>  <input type="text" placeholder="Enter new question" className="form-control mx-4" style={{width:"80%"}} name="service"   value={ele.service} onChange={(e)=>handle(e,index)} required/> <br />
+                    <span className="mx-3">  {index+1} . </span>  <input type="text" placeholder="Enter new question" className="form-control mx-4" style={{width:"80%"}} name="question"   value={ele.question} onChange={(e)=>handle(e,index)} required/> <br />
+                    <input type="file" className="form-control mx-4 w-75 my-2" onChange={(e)=>setimg(e.target.files[0].name)} name="ques_explain" id="ques_explain"   />
                     <input type="text" name="option_a" placeholder='Enter option 1' className="mx-4" id="opt-1" onChange={(e)=>handle(e,index)} value={ele.option_a}/>
                     <input type="text" name="option_b" placeholder='Enter option 2' className="mx-4" id="opt-2" onChange={(e)=>handle(e,index)} value={ele.option_b}/>
                     <input type="text" name="option_c" placeholder='Enter option 3' className="mx-4" id="opt-3" onChange={(e)=>handle(e,index)} value={ele.option_c}/>
@@ -171,6 +285,15 @@ const Addnew = () => {
                          <option value="B">B</option>
                          <option value="C">C</option>
                          <option value="D">D</option>
+                     </select>
+                     <span className="mx-4">Module :</span> <select name="module" className="" value={ele.module} onChange={(e)=>handle(e,index)} id="ans">
+                         <option value="" disabled>Select Module</option>
+                         <option value="C Programming">C Programming</option>
+                         <option value="C++">C++</option>
+                         <option value="React">React</option>
+                         <option value="e programiing">e programiing</option>
+                         <option value="Angular">Angular</option>
+                         <option value="D Programming">D Programming</option>
                      </select>  
                                  
                          <span className="ms-5">Explanation </span>
@@ -207,15 +330,20 @@ const Addnew = () => {
             })
       }
 </div>
+<div>
+  <button type="submit" className="btn btn-primary mx-4" >Submit</button>
+</div>
+ <ToastContainer />
 </form>
-           
+
+
+
+
           </div>
+        </div>
       </div>
-  </>
-  )
-}
+    </>
+  );
+};
 
-export default Addnew
-
-
-
+export default Addnew;
