@@ -14,8 +14,8 @@ import Exam from  "./pages/Exam";
 import Admin from "./pages/Admin";
 import User from './pages/User';
 import Addnew from './pages/Addnew';
-import { LocalStoragedata } from './component/local';
 import Local from './component/local';
+import ExamResult from './pages/ExamResult';
 function App() {
 
   return (
@@ -35,6 +35,7 @@ function App() {
          <Route path='/forget' element={<Forget/>}></Route>
          <Route path='/reset' element={<Reset/>}></Route>
          <Route path='/forgotcode' element={<Forcode/>}></Route>
+         {/* <Route path='/examresult' element={<ExamResult/>}></Route> */}
          {/* <Route path='/codeVerify' element={<CodeVerify/>}></Route> */}
          {/* <Route path='/change' element={<Changepassword/>}></Route> */}
        </Routes>

@@ -36,10 +36,10 @@ const Admin = (props) => {
       console.log("admin");
       localStorage.clear();
    }
-   if(!token.token){
-    Navigate("/");
-    window.location.reload();
-  }
+  //  if(!token.token){
+  //   Navigate("/");
+  //   window.location.reload();
+  // }
      
 
  

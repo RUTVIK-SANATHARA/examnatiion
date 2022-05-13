@@ -31,7 +31,7 @@ const Login = () => {
        axios
       .post(`${url}api/auth/login`, state)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.status ===200) {
           const notify = () => toast('Successfully Login!', {
             position: "top-center",
@@ -63,7 +63,7 @@ const Login = () => {
         }
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
       })
       .catch((error) => {
           seterrormsg("something wrong please check email address or password");

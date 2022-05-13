@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom'
 
 const UserSidebar = () => {
     // console.log(expire);
+    const expirehandle=()=>{
+        localStorage.clear();
+   }
+
   return (
     <>
     <div id="layoutSidenav_nav">
@@ -10,17 +14,17 @@ const UserSidebar = () => {
                     <div className="sb-sidenav-menu">
                         <div className="nav">
                             <div className="sb-sidenav-menu-heading">Core</div>
-                            <Link className="nav-link" to="/welcome">
+                            <Link className="nav-link" to="/">
                                 <div className="sb-nav-link-icon"><i className="fas fa-tachometer-alt"></i></div>
                                   Home
                             </Link>
                            
-                            <Link to="/exam" className="d-flex text-decoration-none text-white-50 my-3">
+                            <Link to="/user" className="d-flex text-decoration-none text-white-50 my-3">
                                 <div className="sb-nav-link-icon"><i className="fas fa-columns px-3"></i></div>
                                 Start Examinatuon 
                             </Link>
 
-                            <Link to="" className="d-flex text-decoration-none text-white-50 my-3 px-3 ">
+                            <Link to="/" className="d-flex text-decoration-none text-white-50 my-3 px-3 "    onClick={expirehandle}>
                                 <div className="sb-nav-link-icon"><i className="fas fa-columns pe-3"></i></div>
                                    Logout    
                             </Link>

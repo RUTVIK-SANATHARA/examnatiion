@@ -8,12 +8,12 @@ import Sidebar from "../component/sidebar";
 import { LocalStoragedata } from "../component/local";
 
 const Addnew = () => {
-  const [send, setsend] = useState({});
   const [img, setimg] = useState("");
   const url = useContext(Info);
   const [check, setcheck] = useState(true);
-    const [btntext, setbtntext] = useState("Image Field");
+  const [btntext, setbtntext] = useState("Image Field");
   let Navigate = useNavigate();
+  let api=process.env.REACT_APP_API;
   const token = useContext(LocalStoragedata);
   // console.log("token",token);
   const [service, setservice] = useState([{
@@ -29,12 +29,13 @@ const Addnew = () => {
   }]);
   // const [check, setcheck] = useState(true);
   // const [btntext, setbtntext] = useState("Image Field");
-  const add = () =>{
+  const add = (e) =>{
     //  setsend({...service})
+    e.preventDefault();
       let ind = service.length - 1 ;
-      console.log(service[ind]);
+     
     axios
-      .post(`${url}api/question`,service[ind], {
+      .post(`${api}/api/question`,service[ind], {
         headers: {
           Authorization:
             "Bearer " +
@@ -42,13 +43,13 @@ const Addnew = () => {
         },
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
 
         if (response.status === 200) {
           const notify = () =>
             toast("Successfully register Your Data!", {
               position: "top-center",
-              autoClose: 2000,
+              autoClose:500,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: false,
@@ -61,7 +62,7 @@ const Addnew = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
     setservice([...service , {question:"" ,ques_explain:"", option_a:"" , option_b:"" , option_c:"" , option_d:"",answer:"",explanation:"" ,module:""}])
 }
@@ -88,16 +89,16 @@ const Addnew = () => {
 
    }
 
-  const handlechange = (e) => {
-    //  console.log("",e.target.files);
-    setservice({
-      ...service,
-      [e.target.name]: e.target.value,
-      ques_explain: img,
-    });
+  // const handlechange = (e) => {
+  //   //  console.log("",e.target.files);
+  //   setservice({
+  //     ...service,
+  //     [e.target.name]: e.target.value,
+  //     ques_explain: img,
+  //   });
 
     
-  };
+  // };
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -163,131 +164,33 @@ const Addnew = () => {
         <Sidebar />
         <div id="layoutSidenav_content">
           <div className="mx-5 d-flex flex-column  py-4 align-content-center justify-content-center">
-            {/* <form action="" onSubmit={handleSubmit}>
-              <h1 className="mx-4 pb-2">Question 1</h1>
-              <input
-                type="text"
-                className="form-control mx-4 mb-3"
-                style={{ width: "80%" }}
-                onChange={handlechange}
-                name="question"
-                id="question"
-                placeholder="Enter your Question"
-                value={service.question}
-              />
-              <input
-                type="file"
-                className="form-control mx-4 mb-3"
-                style={{ width: "80%" }}
-                onChange={(e) => setimg(e.target.files[0].name)}
-                name="ques_explain"
-                id="ques_explain"
-              />
-              <input
-                type="text"
-                className="form-control-sm mx-4 outline-none"
-                onChange={handlechange}
-                name="option_a"
-                id="option_a"
-                placeholder="Enter your option A"
-                value={service.option_a}
-              />
-              <input
-                type="text"
-                className="form-control-sm mx-4 outline-none"
-                onChange={handlechange}
-                name="option_b"
-                id="option_b"
-                placeholder="Enter your option B"
-                value={service.option_b}
-              />
-              <input
-                type="text"
-                className="form-control-sm mx-4 outline-none"
-                onChange={handlechange}
-                name="option_c"
-                id="option_c"
-                placeholder="Enter your option C"
-                value={service.option_c}
-              />
-              <input
-                type="text"
-                className="form-control-sm mx-4 outline-none"
-                onChange={handlechange}
-                name="option_d"
-                id="option_d"
-                placeholder="Enter your option D"
-                value={service.option_d}
-              />
-              Answer:{" "}
-              <select
-                name="answer"
-                value={service.answer}
-                onChange={handlechange}
-                id="ans"
-              >
-                <option value="">Select Answer</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-              </select>
-              <span className="ms-4">Module :</span>{" "}
-              <select
-                name="module"
-                value={service.module}
-                onChange={handlechange}
-                id="ans"
-              >
-                <option value="" disabled>
-                  Select Module
-                </option>
-                <option value="C Programming">C Programming</option>
-                <option value="C++">C++</option>
-                <option value="React">React</option>
-                <option value="e programiing">e programiing</option>
-                <option value="Angular">Angular</option>
-                <option value="D Programming">D Programming</option>
-              </select>
-              <textarea
-                name="explanation"
-                id="module"
-                onChange={handlechange}
-                placeholder="Enter Your answer Explanation"
-                className="mx-3 p-2"
-                value={service.explanation}
-                cols="30"
-                rows="1"
-              ></textarea>
-              <button className="btn btn-primary mx-4">Submit</button>
-              <hr />
-            </form> */}
-
-            <form >
+           
+            <form onSubmit={add}>
             <div className="d-flex flex-column  py-4 align-content-center justify-content-center">
           {
                      service.map((ele,index)=>{
                     return(<>
                     <div>
                         {/* <button className="btn btn-primary mx-4 mt-2 mb-4"  onClick={handleCheck}  type='button'>Text Field</button> <button className="btn btn-primary mx-3 mt-2 mb-4" onClick={handleCheck} type='button'>Image</button> */}
-                        <button className="btn btn-primary mx-4 mt-2 mb-4"  onClick={()=>handleCheck(index)}  type='button'>{btntext}</button>
+                        {/* <button className="btn btn-primary mx-4 mt-2 mb-4"  onClick={()=>handleCheck(index)}  type='button'>{btntext}</button> */}
                     </div>
                     {  check ? 
                    <div key={index +1}>
-                    <span className="mx-3">  {index+1} . </span>  <input type="text" placeholder="Enter new question" className="form-control mx-4" style={{width:"80%"}} name="question"   value={ele.question} onChange={(e)=>handle(e,index)} required/> <br />
-                    <input type="file" className="form-control mx-4 w-75 my-2" onChange={(e)=>setimg(e.target.files[0].name)} name="ques_explain" id="ques_explain"   />
-                    <input type="text" name="option_a" placeholder='Enter option 1' className="mx-4" id="opt-1" onChange={(e)=>handle(e,index)} value={ele.option_a}/>
-                    <input type="text" name="option_b" placeholder='Enter option 2' className="mx-4" id="opt-2" onChange={(e)=>handle(e,index)} value={ele.option_b}/>
-                    <input type="text" name="option_c" placeholder='Enter option 3' className="mx-4" id="opt-3" onChange={(e)=>handle(e,index)} value={ele.option_c}/>
-                    <input type="text" name="option_d" placeholder='Enter option 4' className="mx-4" id="opt-4" onChange={(e)=>handle(e,index)} value={ele.option_d}/>
-                    Answer: <select name="answer" value={ele.answer} onChange={(e)=>handle(e,index)} id="ans">
+                    <span className="mx-3">  {index+1} . </span>  <input type="text" placeholder="Enter new question" className="form-control mx-4" style={{width:"80%"}}    name="question"   value={ele.question} onChange={(e)=>handle(e,index)} required/> <br />
+                    <input type="file" className="form-control mx-4 w-75 my-2" onChange={(e)=>setimg(e.target.files[0].name)} name="ques_explain" id="ques_explain"  />
+                    <input type="text" name="option_a" placeholder='Enter option 1' className="mx-4" id="opt-1" onChange={(e)=>handle(e,index)} value={ele.option_a} required/>
+                    <input type="text" name="option_b" placeholder='Enter option 2' className="mx-4" id="opt-2" onChange={(e)=>handle(e,index)} value={ele.option_b} required/>
+                    <input type="text" name="option_c" placeholder='Enter option 3' className="mx-4" id="opt-3" onChange={(e)=>handle(e,index)} value={ele.option_c} required/>
+                    <input type="text" name="option_d" placeholder='Enter option 4' className="mx-4" id="opt-4" onChange={(e)=>handle(e,index)} value={ele.option_d} required/>
+                    Answer: <select name="answer" value={ele.answer}  className="form-select-sm" required onChange={(e)=>handle(e,index)} id="ans">
+                         <option value="" disabled>Select Answer</option>
                          <option value="A">A</option>
                          <option value="B">B</option>
                          <option value="C">C</option>
                          <option value="D">D</option>
                      </select>
-                     <span className="mx-4">Module :</span> <select name="module" className="" value={ele.module} onChange={(e)=>handle(e,index)} id="ans">
-                         <option value="" disabled>Select Module</option>
+                     <span className="mx-4">Module :</span> <select name="module" required className="form-select-sm" value={ele.module} onChange={(e)=>handle(e,index)} id="ans" >
+                         <option value="" disabled >Select Module</option>
                          <option value="C Programming">C Programming</option>
                          <option value="C++">C++</option>
                          <option value="React">React</option>
@@ -297,14 +200,14 @@ const Addnew = () => {
                      </select>  
                                  
                          <span className="ms-5">Explanation </span>
-                         <textarea name="explanation" onChange={(e)=>handle(e,index)} value={ele.explanation} id="" cols="30" rows="1"></textarea>
+                         <textarea name="explanation" onChange={(e)=>handle(e,index)} value={ele.explanation} id="" cols="30" rows="1"  required></textarea>
                     
                     {/* <button name="btn" type='button' onClick={()=>handleCheck(index)}>Addddd</button> */}
                   { 
-                    service.length > 1 && (<button onClick={()=>remove(index)} className="btn btn-primary m-3 mx-4"   type="button">Remove</button> )
+                    service.length > 1 && (<button onClick={()=>remove(index)} className="btn btn-primary m-3 mx-4"   type="button"  >Remove</button> )
                    }
                   {
-                   service.length - 1 === index && service.length < 30 &&  <button type="button" className="btn btn-primary mx-4" onClick={add}>Add a New Questions</button> 
+                   service.length - 1 === index && service.length < 30 &&  <button type="submit" className="btn btn-primary mx-4" >Add a New Questions</button> 
                        
                    }
                    <hr />
@@ -331,7 +234,7 @@ const Addnew = () => {
       }
 </div>
 <div>
-  <button type="submit" className="btn btn-primary mx-4" >Submit</button>
+  {   service.length === 30 ? <button type="submit" className="btn btn-primary mx-4" >Submit</button> : null}
 </div>
  <ToastContainer />
 </form>
