@@ -15,7 +15,7 @@ import Admin from "./pages/Admin";
 import User from './pages/User';
 import Addnew from './pages/Addnew';
 import Local from './component/local';
-import ExamResult from './pages/ExamResult';
+// import ExamResult from './pages/ExamResult';
 function App() {
 
   return (
